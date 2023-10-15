@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { config } from '../utils/helpers';
 import AuthService from '../services/authService';
 import { useNavigate } from 'react-router-dom';
-import { Box, Container, Slider, Typography } from '@mui/material';
+import { Box, Button, Container, Slider, Typography } from '@mui/material';
 import { useJsApiLoader, GoogleMap, Marker, Polyline } from '@react-google-maps/api';
 import LocationHistoryService from '../services/locationHistoryService';
 import sportCar from '../assets/sport-car.png';
@@ -15,7 +15,7 @@ function TravelLocationHistory() {
   const [carPosition, setCarPosition] = useState(null);
   const [animationSpeed, setAnimationSpeed] = useState(1000);
   const [carRotation, setCarRotation] = useState(0);
-  const [isAnimate, setIsAnimate] =  useState(false);
+  const [isAnimate, setIsAnimate] = useState(false);
   const animationSpeedRef = useRef(1000);
   const animationFrameRef = useRef(null);
   const navigate = useNavigate();
@@ -80,8 +80,8 @@ function TravelLocationHistory() {
         animationFrameRef.current = requestAnimationFrame(() => {
           setTimeout(animateStep, 10000 / animationSpeedRef.current);
         });
-        
-        
+
+
       } else {
         cancelAnimationFrame(animationFrameRef.current);
       }
@@ -120,19 +120,19 @@ function TravelLocationHistory() {
   const [center, setCenter] = useState(false);
 
   const calculateCenter = (pathData) => {
-    if(!center){
+    if (!center) {
       let minLat = Number.MAX_VALUE;
       let maxLat = -Number.MAX_VALUE;
       let minLng = Number.MAX_VALUE;
       let maxLng = -Number.MAX_VALUE;
-    
+
       pathData.forEach((point) => {
         minLat = Math.min(minLat, point.lat);
         maxLat = Math.max(maxLat, point.lat);
         minLng = Math.min(minLng, point.lng);
         maxLng = Math.max(maxLng, point.lng);
       });
-    
+
       const center = {
         lat: (minLat + maxLat) / 2,
         lng: (minLng + maxLng) / 2,
@@ -147,13 +147,11 @@ function TravelLocationHistory() {
   return (
     <React.Fragment>
       <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', float: 'right' }}>
-        <button type="button" onClick={() => handleLogout()}>
-          Logout
-        </button>
+        <Button variant="contained" onClick={() => handleLogout()}>Logout</Button>
       </Box>
-      <div style={{  }}>
-        <button onClick={handleStartAnimation} disabled={!pathData ? true : isAnimate}>Start Animation</button>
-        <button onClick={handleStopAnimation} disabled={!isAnimate} style={{marginLeft:'10px'}}>Stop Animation</button>
+      <div style={{}}>
+        <Button variant="contained" onClick={handleStartAnimation} disabled={!pathData ? true : isAnimate}>Start Animation</Button>
+        <Button variant="contained" onClick={handleStopAnimation} disabled={!isAnimate} style={{ marginLeft: '10px' }}>Stop Animation</Button>
         <div style={{ display: 'flex', alignItems: 'center', marginLeft: '20px' }}>
           <Typography>Min:100</Typography>
           <Slider
@@ -163,29 +161,30 @@ function TravelLocationHistory() {
             max={3000}
             step={100}
             onChange={handleSpeedChange}
-            style={{margin:'10px'}}
+            style={{ margin: '10px' }}
             disabled={!pathData ? true : isAnimate}
           />
           <Typography>Max:3000</Typography>
-          <Typography style={{marginLeft:'10px'}}>Speed:{animationSpeed}</Typography>
+          <Typography style={{ marginLeft: '10px' }}>Speed:{animationSpeed}</Typography>
+        </div>
       </div>
-      </div>
-      {!isLoaded ? <>Loading...</> : (
-        <Container maxWidth="xl">
-          <Box sx={{ bgcolor: '#cfe8fc', height: '460px', width: '100vh' }}>
-              <GoogleMap
-                center={pathData && pathData.length > 0 ? calculateCenter(pathData) : {lat: 20.5937, lng: 78.9629}} // Calculate and set the center
-                zoom={pathData ? 12 : 2}
-                mapContainerStyle={{ width: '100%', height: '100%' }}
-                options={{
-                  zoomControl: false,
-                  streetViewControl: false,
-                  mapTypeControl: false,
-                  fullscreenControl: false,
-                }}
-                onLoad={(map) => setMap(map)}
-              >
-                {pathData && <>
+
+      <Container maxWidth="xl">
+        <Box sx={{ bgcolor: '#fffff', height: '460px', width: '100vh' }}>
+          {!isLoaded ? <>Loading...</> : (
+            <GoogleMap
+              center={pathData && pathData.length > 0 ? calculateCenter(pathData) : { lat: 20.5937, lng: 78.9629 }} // Calculate and set the center
+              zoom={pathData ? 12 : 2}
+              mapContainerStyle={{ width: '100%', height: '100%' }}
+              options={{
+                zoomControl: false,
+                streetViewControl: false,
+                mapTypeControl: false,
+                fullscreenControl: false,
+              }}
+              onLoad={(map) => setMap(map)}
+            >
+              {pathData && <>
                 <Marker
                   position={pathData[0]}
                   title={`Start: ${pathData[0].tracktime}`}
@@ -204,22 +203,22 @@ function TravelLocationHistory() {
                     strokeWeight: 4,
                   }}
                 />
-                </>
-                }
-                {/* {console.log('car pos=', carPosition)} */}
-                {carPosition && <Marker
-                  position={carPosition}
-                  icon={{
-                    url: sportCar,
-                    scaledSize: new window.google.maps.Size(40, 40),
-                  }}
-                  rotation={carRotation}
-                />
-                }
-              </GoogleMap>
-          </Box>
-        </Container>
-      )}
+              </>
+              }
+              {/* {console.log('car pos=', carPosition)} */}
+              {carPosition && <Marker
+                position={carPosition}
+                icon={{
+                  url: sportCar,
+                  scaledSize: new window.google.maps.Size(40, 40),
+                }}
+                rotation={carRotation}
+              />
+              }
+            </GoogleMap>
+          )}
+        </Box>
+      </Container>
     </React.Fragment>
   );
 }

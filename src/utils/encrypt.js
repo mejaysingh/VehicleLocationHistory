@@ -2,21 +2,23 @@ import CryptoJS from 'crypto-js';
 import * as config from './config';
 
 export function encryptLocal(stringValue) {
-    const aesKey = config.get('LOCAL_SECRET_KEY')
-    
-    if (aesKey) {
-        return CryptoJS.AES.encrypt(stringValue, aesKey).toString()
-    }
+	const aesKey = config.get('LOCAL_SECRET_KEY');
 
-    return stringValue;
+	if (aesKey) {
+		return CryptoJS.AES.encrypt(stringValue, aesKey).toString();
+	}
+
+	return stringValue;
 }
 
 export function decryptLocal(encryptedValue) {
-    const aesKey = config.get('LOCAL_SECRET_KEY')
+	const aesKey = config.get('LOCAL_SECRET_KEY');
 
-    if (aesKey) {
-        return CryptoJS.AES.decrypt(encryptedValue, aesKey).toString(CryptoJS.enc.Utf8)
-    }
+	if (aesKey) {
+		return CryptoJS.AES.decrypt(encryptedValue, aesKey).toString(
+			CryptoJS.enc.Utf8
+		);
+	}
 
-    return encryptedValue;
+	return encryptedValue;
 }

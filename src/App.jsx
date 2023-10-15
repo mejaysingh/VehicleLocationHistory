@@ -7,7 +7,7 @@ function App() {
   return (
     <Container sx={{ mt: -6 }}>
       <main>
-        <h3>Vehicle Travelled Location History</h3> <Outlet/>
+        <h3>Vehicle Travelled Location History</h3> <Outlet />
       </main>
     </Container>
   )
