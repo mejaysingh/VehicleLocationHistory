@@ -41,7 +41,6 @@ function TravelLocationHistory() {
           const { lat, lon: lng, tracktime } = item;
           return { lat, lng, tracktime };
         });
-        // console.log(formattedData);        
         setPathData(formattedData);
       })
       .catch((err) => {
@@ -52,11 +51,9 @@ function TravelLocationHistory() {
   const handleSpeedChange = (event, newValue) => {
     setAnimationSpeed(newValue);
     animationSpeedRef.current = newValue;
-    // console.log('speed change=',newValue,' current=',animationSpeed,' interval=',animationInterval)
   };
 
   const animateCar = () => {
-    // console.log('animate car=',map)
     if (!map || carPosition === null) return;
 
     const totalSteps = pathData.length - 1;
@@ -69,7 +66,6 @@ function TravelLocationHistory() {
 
         const nextPosition = pathData[currentStep + 1];
         const bearing = (Math.atan2(nextPosition.lng - newPosition.lng, nextPosition.lat - newPosition.lat) * 180) / Math.PI;
-        // console.log('bearing=',bearing)
         setCarRotation(bearing);
 
         map.panTo(newPosition);
@@ -80,7 +76,6 @@ function TravelLocationHistory() {
         animationFrameRef.current = requestAnimationFrame(() => {
           setTimeout(animateStep, 10000 / animationSpeedRef.current);
         });
-
 
       } else {
         cancelAnimationFrame(animationFrameRef.current);
@@ -97,7 +92,6 @@ function TravelLocationHistory() {
   };
 
   const handleStopAnimation = () => {
-    // console.log('before stop interval=',animationFrameRef.current)
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
       animationFrameRef.current = null;
@@ -109,10 +103,7 @@ function TravelLocationHistory() {
   };
 
   useEffect(() => {
-    // console.log('map effect=',map)
     if (map && pathData) {
-      //  console.log('found map effect=',map)
-
       setCarPosition(pathData[0]);
     }
   }, [map, pathData]);
@@ -138,7 +129,6 @@ function TravelLocationHistory() {
         lng: (minLng + maxLng) / 2,
       };
       setCenter(center);
-      // console.log('center1',center)
       return center;
     }
     return center;
@@ -205,7 +195,6 @@ function TravelLocationHistory() {
                 />
               </>
               }
-              {/* {console.log('car pos=', carPosition)} */}
               {carPosition && <Marker
                 position={carPosition}
                 icon={{

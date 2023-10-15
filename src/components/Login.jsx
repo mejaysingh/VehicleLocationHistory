@@ -11,23 +11,18 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     AuthService.login(userName, password).then(resp => {
-      // console.log('resp=',resp.data)
       let data = resp.data;
       setSessionToken(data.data);
       navigate('/')
     })
-      // console.log('test=',userName,' p=',password)
       .catch(error => {
         if (error.response && error.response.status) {
           alert(error.response.data.data.error[0].message)
           console.log('Error=', error.response.data.data)
         }
       });
-
-    // checkSessionToken && redirect('/')
   }
   const handleChange = (e) => {
-    // console.log('test=',userName,' p=',password)
     e.target.name === 'username' && setUserName(e.target.value)
     e.target.name === 'current-password' && setPassword(e.target.value)
 

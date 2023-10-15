@@ -8,16 +8,12 @@ export default function Protected({ children, authentication = true }) {
     const [loader, setLoader] = useState(true)
 
     const authStatus = checkTokenValid();
-    // console.log('session data=',authStatus)
 
     useEffect(() => {
-        // console.log('Test navigate based on auth')
 
         if (authentication && authStatus !== authentication) {
-            // console.log('navigate to login')
             navigate("/login")
         } else if (!authentication && authStatus !== authentication) {
-            // console.log('navigate to home')
             navigate("/")
         }
         setLoader(false)
