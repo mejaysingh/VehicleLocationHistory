@@ -4,7 +4,7 @@ import TravelLocationHistory from '../components/TravelLocationHistory'
 function HomePage() {
   return (
     <React.Fragment>
-      <TravelLocationHistory/>
+      <TravelLocationHistory />
     </React.Fragment>
   )
 }
