@@ -1,11 +1,9 @@
 import { useNavigate } from "react-router-dom"
 
 function NotFound() {
-  console.log('navigate to Error')
   const navigate = useNavigate()
   const navigateHome = () => {
     navigate('/')
-    // console.log('redirect log')
   }
 
   return (
